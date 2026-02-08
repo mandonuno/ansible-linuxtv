@@ -1,3 +1,3 @@
 # ansible-linuxtv
 
-## Ansible Repo [Ubuntu / Vagrant VMs]
+## Ansible Repo [Ubuntu / CentOS / Vagrant VMs]
