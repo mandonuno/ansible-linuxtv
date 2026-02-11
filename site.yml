@@ -5,12 +5,14 @@
   pre_tasks:
 
   - name: install updates (Ubuntu)
+    tags: always
     apt:
       upgrade: dist
       update_cache: yes
     when: ansible_distribution == "Ubuntu"
   
   - name: install updates (CentOS)
+    tags: always
     yum:
       update_only: yes
       update_cache: yes
@@ -21,6 +23,7 @@
   tasks:
 
   - name: install apache and php (Ubuntu) 
+    tags: apache,apache2,ubuntu
     apt:
       name:
         - apache2
@@ -29,6 +32,7 @@
     when: ansible_distribution == "Ubuntu"
 
   - name: install apache and php (CentOS) 
+    tags: apache,httpd,centos
     yum:
       name: 
         - httpd
@@ -36,11 +40,21 @@
       state: latest
     when: ansible_distribution == "CentOS"
 
+  - name: copy default HTML file for site
+    tags: apache,apache2,httpd
+    copy:
+      src: default_site.html
+      dest: /var/www/html/index.html
+      owner: root
+      group: root
+      mode: 0664
+
 - hosts: db_server
   become: true
   tasks:
 
   - name: install mariadb package (Ubuntu)
+    tags: db,mariadb,ubuntu
     apt:
       name: mariadb-server
       state: latest
